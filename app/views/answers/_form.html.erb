@@ -1,0 +1,18 @@
+<%= form_for(@answer) do |f| %>
+
+
+  <div class="field">
+    <%= f.label :title %><br />
+    <%= f.text_field :title %>
+    <% if (@answer.errors.any? && @answer.errors.messages.has_key?(:title)) %>
+      <%= @answer.errors.messages[:title].join(", ") %>
+    <% end %>
+  </div>
+  <div class="field">
+    <%= f.label :content %><br />
+    <%= f.text_area :content %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
