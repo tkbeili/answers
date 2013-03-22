@@ -1,7 +1,13 @@
 class QuestionsController < ApplicationController
-  before_filter :find_question, only: [:edit, :update, :destroy]
+  before_filter :authenticate_user!, except: [:index, :show]
+  before_filter :find_question, only: [:show, :edit, :update, :destroy]
 
   def index
+  end
+
+  def show
+    @answer = Answer.new
+    @like   = (current_user && current_user.like_for(@question)) || Like.new
   end
 
   def new
@@ -9,7 +15,8 @@ class QuestionsController < ApplicationController
   end
 
   def create
-    @question = Question.new(params[:question])
+    @question      = Question.new(params[:question])
+    @question.user = current_user
     if @question.save
       redirect_to @question, notice: "Question Created Successfully!"
     else
@@ -36,6 +43,6 @@ class QuestionsController < ApplicationController
   private
 
   def find_question
-    @question = Question.find params[:id]
+    @question = Question.find(params[:question_id] || params[:id])
   end
 end

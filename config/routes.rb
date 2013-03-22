@@ -1,11 +1,19 @@
 Answers::Application.routes.draw do
 
-  resources :answers
+  devise_for :users
+  
+
   resources :questions do
     get "top_questions", on: :collection
-    post "unvote"
+    post "unvote", on: :member
   end
 
+  resources :questions, only: [:show] do
+    resources :likes, only: [:create, :destroy]
+    resources :answers
+  end
+
+  root :to => 'questions#index'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

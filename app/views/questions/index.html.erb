@@ -1,2 +1,13 @@
 <h1>Questions#index</h1>
 <p>Find me in app/views/questions/index.html.erb</p>
+<% if user_signed_in? %>
+  <h2> Your Questions </h2>
+  <% current_user.questions.each do |question| %>
+    <%= link_to question.title, question %>
+    <br/>
+  <% end %>
+  <hr/>
+  <%= link_to "Create New Question", new_question_path %>
+<% else %>
+  <%= link_to "Sign In To Create a Question", new_user_session_path %>
+<% end %>

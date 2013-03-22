@@ -1,4 +1,6 @@
-class AnswersController < ApplicationController
+class AnswersController < QuestionsController
+  before_filter :find_question
+
   # GET /answers
   # GET /answers.json
   def index
@@ -35,10 +37,11 @@ class AnswersController < ApplicationController
   # POST /answers
   # POST /answers.json
   def create
-    @answer = Answer.new(params[:answer])
+    @answer          = Answer.new(params[:answer])
+    @answer.question = @question
 
     if @answer.save
-      redirect_to @answer, notice: 'Answer was successfully created.'
+      redirect_to @question, notice: 'Answer was successfully created.'
     else
       render action: "new"
     end
@@ -51,7 +54,7 @@ class AnswersController < ApplicationController
 
     respond_to do |format|
       if @answer.update_attributes(params[:answer])
-        format.html { redirect_to @answer, notice: 'Answer was successfully updated.' }
+        format.html { redirect_to @answer.question, notice: 'Answer was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }

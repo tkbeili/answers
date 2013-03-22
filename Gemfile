@@ -12,6 +12,7 @@ gem 'quiet_assets', group: :development
 
 gem 'rspec-rails', group: [:development, :test]
 
+gem 'devise'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do

@@ -1,7 +1,7 @@
 class Answer < ActiveRecord::Base
-  attr_accessible :content, :title
+  attr_accessible :content
 
-  validates :title, presence: true, uniqueness: true
+  belongs_to :question
 
   before_validation :print_me_something
 

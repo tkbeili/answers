@@ -1,0 +1,40 @@
+<h1> <%= @question.title %> </h1>
+
+<p>
+  <%= @question.body %>
+</p>
+<hr />
+  <%= pluralize(@question.likes.count, 'person') %>
+  have liked this question
+  <% if user_signed_in? %>
+    <% if current_user.has_liked?(@question) %>
+      <%= form_for @like, url: question_like_path(@question, @like), method: :delete do |f| %>
+        <%= f.submit "UnLike" %>  
+      <% end %>
+    <% else %>
+      <%= form_for @like, url: question_likes_path(@question) do |f| %>
+        <%= f.submit "Like" %>  
+      <% end %>
+    <% end %>
+  <% else %>
+    Please <%= link_to "Sign In", new_user_session_path %> in order to like the question
+  <% end %>
+<hr />
+<hr />
+<h2> Answers </h2>
+<% if @question.answers.empty? %>
+  <p> There are currently no answers </p>
+<% else %>
+  <% @question.answers.each do |answer| %>
+    <%= answer.content %>
+    <br />
+    <%= link_to "Edit Answer", edit_question_answer_path(@question,answer) %>
+    <%= link_to "<b >Delete Answer</b>".html_safe, question_answer_path(@question, answer), method: :delete, confirm: "Are you sure you want to delete this answer?", class: "btn" %>
+    <hr />
+  <% end %>
+<% end %>
+
+<%= form_for @answer, url: question_answers_path(@question) do |f| %>
+  <%= f.text_area :content %>
+  <%= f.submit %>
+<% end %>
