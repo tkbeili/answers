@@ -41,6 +41,7 @@ class AnswersController < QuestionsController
     @answer.question = @question
 
     if @answer.save
+      QuestionsMailer.answer_notfication(current_user, @question).deliver
       redirect_to @question, notice: 'Answer was successfully created.'
     else
       render action: "new"

@@ -12,6 +12,9 @@ gem 'quiet_assets', group: :development
 
 gem 'rspec-rails', group: [:development, :test]
 
+gem 'bootstrap-sass'
+gem 'bootswatch-rails'
+gem "faker"
 gem 'devise'
 # Gems used only for assets and not required
 # in production environments by default.

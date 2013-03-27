@@ -8,6 +8,11 @@
   <% end %>
   <hr/>
   <%= link_to "Create New Question", new_question_path %>
+  <h2> All Questions </h2>
+  <% Question.all.each do |question| %>
+    <%= link_to question.title, question %> 
+    <hr />
+  <% end %>
 <% else %>
   <%= link_to "Sign In To Create a Question", new_user_session_path %>
 <% end %>
