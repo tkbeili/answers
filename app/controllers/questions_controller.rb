@@ -3,6 +3,7 @@ class QuestionsController < ApplicationController
   before_filter :find_question, only: [:show, :edit, :update, :destroy]
 
   def index
+    
   end
 
   def show

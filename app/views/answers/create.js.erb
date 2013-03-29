@@ -1,0 +1,5 @@
+<% if @answer.errors.empty? %>
+  $("#answers").append("<%= j render @answer %>");
+<% else %>
+  alert("there was errors with your answer");
+<% end %>

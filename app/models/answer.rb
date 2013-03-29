@@ -5,6 +5,8 @@ class Answer < ActiveRecord::Base
 
   before_validation :print_me_something
 
+  validates :content, presence: true
+
   scope :ordered_by_title, order("title ASC")
   scope :with_empty_content, where(content: "")
 

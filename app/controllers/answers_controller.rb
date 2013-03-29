@@ -5,6 +5,7 @@ class AnswersController < QuestionsController
   # GET /answers.json
   def index
     @answers = Answer.all
+    session[:user_id] = Time.now
 
     respond_to do |format|
       format.html # index.html.erb
@@ -38,20 +39,18 @@ class AnswersController < QuestionsController
   # POST /answers.json
   def create
     @answer          = Answer.new(params[:answer])
-    @answer.question = @question
 
     if @answer.save
-      QuestionsMailer.answer_notfication(current_user, @question).deliver
-      redirect_to @question, notice: 'Answer was successfully created.'
-    else
-      render action: "new"
+      # QuestionsMailer.delay.answer_notfication(current_user, @question)
+      Answers::MailHandler.new.send_mail(@question.id, current_user.id)
+      # redirect_to @question, notice: 'Answer was successfully created.'
     end
   end
 
   # PUT /answers/1
   # PUT /answers/1.json
   def update
-    @answer = Answer.find(params[:id])
+    @answer = current_user.answers.find(params[:id])
 
     respond_to do |format|
       if @answer.update_attributes(params[:answer])
@@ -67,12 +66,13 @@ class AnswersController < QuestionsController
   # DELETE /answers/1
   # DELETE /answers/1.json
   def destroy
-    @answer = Answer.find(params[:id])
+    @answer = current_user.answers.find(params[:id])
     @answer.destroy
 
     respond_to do |format|
       format.html { redirect_to answers_url }
       format.json { head :no_content }
+      format.js   { render js: "$('#answer_#{@answer.id}').fadeOut();"}
     end
   end
 end

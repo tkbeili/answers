@@ -13,6 +13,9 @@ gem 'quiet_assets', group: :development
 
 gem 'rspec-rails', group: [:development, :test]
 
+gem 'delayed_job_active_record'
+
+
 gem 'bootstrap-sass'
 gem 'bootswatch-rails'
 gem "faker"
